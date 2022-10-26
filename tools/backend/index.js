@@ -62,9 +62,17 @@ function get_videos(base)
 // --- routes ---------------------------------------------------------------------
 
 app.get('/', (req, res) => {
+    console.log('get')
     videos = get_videos(path.join(__dirname, 'vidat'))
     res.render('index.ejs', { videos: videos, vidaturl: vidat, submission: submit })
 })
+
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
+});
+// 출처: https://dalconbox.com/90 [달콘박스:티스토리]
 
 app.post('/', (req, res) => {
     const name = req.query.token

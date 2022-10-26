@@ -20,10 +20,10 @@
     <tr><td><b>Video</b></td><td><b>Has Annotation</b></td></tr>
   <%
     for (var key in videos) {
-      var vid_url = vidaturl + '?video=' + videos[key].video
+      var vid_url = vidaturl + '?video=' + 'video/' + videos[key].video
       var anno_flag = ''
       if (videos[key].annotation) {
-        vid_url += '&annotation=' + videos[key].annotation
+        vid_url += '&annotation=' + 'annotation/' + videos[key].annotation
         anno_flag = '&#x2714;'
       }
       vid_url += '&submitURL=' + encodeURIComponent(submission + "?token=" + key)
