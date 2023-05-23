@@ -17,13 +17,21 @@
   <a href="javascript:window.location.reload(true)">Refresh</a> this page when done.
   <p>
   <table>
-    <tr><td><b>Video</b></td><td><b>Has Annotation</b></td></tr>
+    <tr><td><b>Video</b></td><td><b>Has Annotation</b></td><td><b>Has Confirmed</b></td></tr>
   <%
     for (var key in videos) {
-      var vid_url = vidaturl + '?video=' + 'video/' + videos[key].video
+      var vid_url = vidaturl + '?video=' + videos[key].video
       var anno_flag = ''
-      if (videos[key].annotation) {
-        vid_url += '&annotation=' + 'annotation/' + videos[key].annotation
+      var confirm_flag = ''
+      if (videos[key].confirmAnnotation) {
+        vid_url += '&annotation=' + videos[key].confirmAnnotation
+        if (videos[key].annotation) {
+            anno_flag = '&#x2714;'
+        }
+        confirm_flag = '&#x2714;'
+
+      } else if (videos[key].annotation) {
+        vid_url += '&annotation=' + videos[key].annotation
         anno_flag = '&#x2714;'
       }
       vid_url += '&submitURL=' + encodeURIComponent(submission + "?token=" + key)
@@ -31,6 +39,7 @@
     <tr>
       <td><a href="<%= vid_url %>" target="_blank"><%= key %></a></td>
       <td align='center'><%- anno_flag %></td>
+      <td align='center'><%- confirm_flag %></td>
     </tr>
   <%
     }
