@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // static serving of vidat
 app.use('/vidat', express.static('vidat'));
 const vidat = 'http://' + host + ':' + port + '/vidat';
-const submit = 'http://' + host + ':' + port + '/home';
+const submit = 'http://' + host + ':' + port + '/';
 
 // Authentication middleware
 app.use(session({
@@ -114,7 +114,7 @@ app.get('/login', (req, res) => {
 });
 
 // Define a route for the home page
-app.get('/home', requireLogin, (req, res) => {
+app.get('/', requireLogin, (req, res) => {
     console.log('get');
     // Retrieve the data from the session
     const {username, role} = req.session;
@@ -138,13 +138,13 @@ app.post('/login', (req, res) => {
     req.session.isAuthenticated = true;
     req.session.username = account.username;
     req.session.role = account.role;
-    res.redirect('/home');
+    res.redirect('/');
   } else {
     res.send('Invalid username or password. Please try again.');
   }
 });
 
-app.post('/home', (req, res) => {
+app.post('/', (req, res) => {
     const name = req.query.token;
     const role = req.query.role;
     const json = JSON.stringify(req.body);
@@ -165,7 +165,7 @@ app.post('/home', (req, res) => {
             console.log(err);
             return res.status(500).send('Server error!');
         }
-        res.send('Annotation saved!');
+        res.json({'message': 'Annotation saved!'});
     })
 })
 
