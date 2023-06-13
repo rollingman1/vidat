@@ -39,7 +39,7 @@
           vid_url +='&annotation=' + videos[key].annotation 
           anno_flag='&#x2714;' 
         } 
-        vid_url +='&submitURL=' + encodeURIComponent(submission + "?token=" + key + "&role=" + role) %>
+        vid_url +='&submitURL=' + encodeURIComponent(submission + "?token=" + key + "&role=" + role + "&config=config/config.json") %>
       <tr>
         <td><a href="<%= vid_url %>" target="_blank">
             <%= key %>
