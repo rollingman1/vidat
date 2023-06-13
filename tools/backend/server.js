@@ -8,6 +8,7 @@ const express    = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path       = require('path');
+const date = require('date-utils')
 
 const app = express();
 // handling posts
@@ -51,6 +52,10 @@ const requireLogin = (req, res, next) => {
 };
 
 // --- helper functions -----------------------------------------------------------
+function log(message){
+    const date = new Date()
+    console.log(date.toFormat('YYYY-MM-DD HH24:MI:SS : '), message)
+}
 
 function get_videos(base, username, role)
 {
@@ -115,7 +120,7 @@ app.get('/login', (req, res) => {
 
 // Define a route for the home page
 app.get('/', requireLogin, (req, res) => {
-    console.log('get');
+    log('get');
     // Retrieve the data from the session
     const {username, role} = req.session;
     const videos = get_videos(path.join(__dirname, 'vidat'), username, role);
@@ -124,6 +129,7 @@ app.get('/', requireLogin, (req, res) => {
 
 // Logout route
 app.get('/logout', (req, res) => {
+  log('log out: ' + req.session.username);
   req.session.destroy();
   res.redirect('/login');
 });
@@ -138,6 +144,7 @@ app.post('/login', (req, res) => {
     req.session.isAuthenticated = true;
     req.session.username = account.username;
     req.session.role = account.role;
+    log('log in: ' + req.session.username);
     res.redirect('/');
   } else {
     res.send('Invalid username or password. Please try again.');
