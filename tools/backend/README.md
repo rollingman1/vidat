@@ -24,21 +24,78 @@ the changes. Newly submitted annotations override any existing annotations for a
 ## Installation
   
 To run the demo, install `nodejs`, `npm` and various modules. And link the static Vidat browser
-code to the subdirectory `vdiat`.
+code to the subdirectory `vidat`.
   
 ```
 sudo apt install nodejs npm
-npm install --save express ejs body-parser cors
+npm install --save express ejs body-parser cors express-session
 
 ln -s ../../src vidat
 ```
 
 Detailed instructions for installing `express` can be found at https://expressjs.com/en/starter/installing.html.
 
-Now copy any videos you would like annotated to `vidat/video`.
-Corresponding annotations will be saved in `vidat/annotation`.
+Now copy any videos you would like annotated to `vidat/dataRoot/video`.
+Corresponding annotations will be saved in `vidat/dataRoot/annotation_notConfirmed` or `vidat/dataRoot/annotation_confirmed`.
+username으로된 폴더를 만들어야함. (라벨링 데이터 구조 참고)
 
 ## Running
 
-1. Open a terminal and run `node index.js`
-2. Open a web broswer and navigate to `http://localhost:3000/`
+1. Open a terminal and run `node server.js`
+2. Open a web broswer and navigate to `http://HOST:PORT/`
+   (`PORT`와 `HOST`는 `server.js`와 같은 수준에 위치한 `exec_config.json`에 기입)
+   
+### exec_config
+```json
+{
+	"dataRoot": "data_example",
+	"port": 80,
+	"host": "localhost",
+	"accounts": [
+		{
+			"username": "admin", 
+			"password": "admin",
+			"role": "admin"
+		},
+		{
+			"username": "labeler0",
+			"password": "labeler0",
+			"role": "labeler"
+		},
+		{
+			"username": "labeler1",
+			"password": "labeler1",
+			"role": "labeler"
+		},
+		{
+			"username": "labeler2",
+			"password": "labeler2",
+			"role": "labeler"
+		}
+	]
+}
+```
+
+## 라벨링 데이터 구조
+```
+.
+    vidat/
+        data_example/
+            video/
+                labeler0/
+                    *.mp4
+                labeler1/
+                labeler2/
+                
+            annotation_notConfirmed/
+                labeler0/
+                    *.json
+                labeler1/
+                labeler2/
+                
+            annotation_confirmed/
+                labeler0/
+                    *.json
+                labeler1/
+                labeler2/
+```
